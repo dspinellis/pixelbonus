@@ -52,24 +52,24 @@ class pixelbonus (
       require => [ Package['mysql-server'] ],
     }
 
-    # install php5 package
-    package { 'php5':
+    # install php7 package
+    package { 'php7':
       require => Exec['apt-update'],        # require 'apt-update' before installing
       ensure => installed,
     }
-    package { 'php5-mysql':
+    package { 'php-mysql':
       require => Exec['apt-update'],        # require 'apt-update' before installing
       ensure => installed,
     }
-    package { 'php5-mcrypt':
+    package { 'php-mcrypt':
       require => Exec['apt-update'],        # require 'apt-update' before installing
       ensure => installed,
     }
     exec { 'enable-mcrypt':
-      command => "php5enmod mcrypt; /etc/init.d/apache2 restart",
+      command => "phpenmod mcrypt; /etc/init.d/apache2 restart",
       path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
       cwd     => '/etc/apache2',
-      require => [ Package['php5-mcrypt'] ],
+      require => [ Package['php-mcrypt'] ],
       unless  => 'php -i |grep -c mcrypt',
     }
 
