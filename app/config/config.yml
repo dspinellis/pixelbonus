@@ -21,7 +21,7 @@ framework:
 
 parameters:
     locales: [el, en]
-    host: "pixelbonus.com"
+    host: "pixelbonus.dmst.aueb.gr"
 
 # Twig Configuration
 twig:

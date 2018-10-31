@@ -40,7 +40,7 @@ class GenerateQrCodesCommand extends ContainerAwareCommand
             $message = \Swift_Message::newInstance()
                     ->setContentType('text/html')
                     ->setSubject($this->getContainer()->get('translator')->trans('email.qr.subject', array(), 'messages', $locale))
-                    ->setFrom('info@pixelbonus.com', 'Pixelbonus')
+                    ->setFrom('info@pixelbonus.dmst.aueb.gr', 'Pixelbonus')
                     ->setTo($curQrRequest->getQrSet()->getCourse()->getUser()->getEmail())
                     ->setBody($this->getContainer()->get('translator')->trans('email.qr.body', array('%link%' => $this->getContainer()->getParameter('host').$this->getContainer()->get('router')->generate('download_generated_qr', array('qrrequest' => $curQrRequest->getId()))), 'messages', $locale));
             $this->getContainer()->get('mailer')->send($message);
