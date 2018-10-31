@@ -58,4 +58,4 @@ php composer.phar update
 ```
 
 ## Try it out
-To try it out without installing visit http://pixelbonus.dmst.aueb.gr
+To try it out without installing visit http://www.pixelbonus.com

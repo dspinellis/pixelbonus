@@ -25,9 +25,9 @@ class ExtApplication extends Application {
         $message = \Swift_Message::newInstance()
                 ->setContentType('text/html')
                 ->setSubject('Pixelbonus Console Error')
-                ->setFrom('info@pixelbonus.dmst.aueb.gr', 'Pixelbonus')
+                ->setFrom('info@pixelbonus.com', 'Pixelbonus')
                 //->setReplyTo($replyTo)
-                ->setTo('info@pixelbonus.dmst.aueb.gr')
+                ->setTo('info@pixelbonus.com')
                 ->setBody(nl2br($e->__toString()));
         if(isset($container)) {
             $container->get('mailer')->send($message);
