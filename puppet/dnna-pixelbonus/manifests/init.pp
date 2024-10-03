@@ -159,7 +159,7 @@ class pixelbonus (
     cron { generateqr:
       command => "/usr/bin/php /var/www/pixelbonus/app/console pixelbonus:generateqr --env=prod --no-debug",
       user    => $user,
-      minute  => "*/1"
+      minute  => "*/1",
       require => [ Exec['schema-update'] ],
     }
 }
