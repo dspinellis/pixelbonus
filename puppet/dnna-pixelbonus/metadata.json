@@ -1,0 +1,24 @@
+{
+  "name": "dnna-pixelbonus",
+  "version": "0.1.3",
+  "author": "dnna",
+  "license": "Apache-2.0",
+  "summary": "Installs the pixelbonus student participation management system.",
+  "description": "Pixelbonus provides educators with QR codes they can handle to students to record their course participation.",
+  "source": "https://github.com/dnna/pixelbonus",
+  "project_page": "https://github.com/dnna/pixelbonus",
+  "dependencies": [
+    {
+      "name": "puppetlabs/mysql",
+      "version_requirement": ">= 3.6.2"
+    },
+    {
+      "name": "puppetlabs/vcsrepo",
+      "version_requirement": ">= 1.3.2"
+    },
+    {
+      "name": "willdurand-composer",
+      "version_requirement": ">= 1.1.1"
+    }
+  ]
+}
