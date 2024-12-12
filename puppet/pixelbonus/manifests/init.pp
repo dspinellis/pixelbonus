@@ -106,6 +106,11 @@ class pixelbonus (
       require => Exec['apt-update'],        # require 'apt-update' before installing
       ensure => installed,
     }
+    package { 'php-curl':
+      require => Exec['apt-update'],        # require 'apt-update' before installing
+      ensure => installed,
+    }
+
     package { 'xvfb':
       require => Exec['apt-update'],        # require 'apt-update' before installing
       ensure => installed,
@@ -131,6 +136,7 @@ class pixelbonus (
         Vcsrepo['/var/www/pixelbonus'],
         Package['wkhtmltopdf'],
         Package['xvfb'],
+        Package['php-curl'],
         Exec['composer-install'],
         ],
       tries => 10,
