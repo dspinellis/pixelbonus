@@ -1,1 +1,1 @@
-include dnna-pixelbonus
+include pixelbonus
