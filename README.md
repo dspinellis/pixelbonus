@@ -1,12 +1,31 @@
 # pixelbonus
 
 ## Installing via puppet
-This repository contains a puppet script for setting up pixelbonus on a clean installation of Ubuntu Server 14.04.
+This repository contains a puppet script for setting up pixelbonus
+on a clean installation of Debian GNU/Linux 11 (bullseye).
+
 To use it run the following commands:
 
- - apt-get install puppet
- - puppet module install dnna-pixelbonus
- - puppet apply -e 'include pixelbonus'
+```
+wget https://apt.puppet.com/puppet7-release-bullseye.deb
+sudo dpkg -i puppet7-release-bullseye.deb
+sudo apt update
+sudo apt install puppetserver
+```
+
+Then
+* Add `/opt/puppetlabs/bin/puppet` in the sudo `secure_path` option.
+* Add `source /etc/profile.d/puppet-agent.sh` in ``/root/.bashrc`
+
+Continue as follows:
+```
+sudo puppet module install puppetlabs-mysql
+sudo puppet module install "willdurand-composer"
+sudo puppet module install "puppetlabs/vcsrepo"
+cd puppet
+sudo puppet apply --modulepath=`sudo puppet config print modulepath`:`pwd` site.pp
+```
+
  - Change the secret key and mailer configuration at /var/www/pixelbonus/app/config/parameters.yml
  - rm -fR /var/www/pixelbonus/app/cache/*
 

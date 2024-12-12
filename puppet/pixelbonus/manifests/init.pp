@@ -4,7 +4,6 @@ class pixelbonus (
     $repo_url = 'https://github.com/dnna/pixelbonus.git',
     $apt_update_threshold = 2419200
 ) {
-    include composer
 
     # execute 'apt-get update'
       exec { 'apt-update':                    # exec resource named 'apt-update'
@@ -40,8 +39,8 @@ class pixelbonus (
       require => Exec['enable-mod-rewrite']
     }
 
-    # install mysql-server package
-    package { 'mysql-server':
+    # install mariadb-server package
+    package { 'mariadb-server':
       require => Exec['apt-update'],        # require 'apt-update' before installing
       ensure => installed,
     }
@@ -49,28 +48,17 @@ class pixelbonus (
     # ensure mysql service is running
     service { 'mysql':
       ensure => running,
-      require => [ Package['mysql-server'] ],
+      require => [ Package['mariadb-server'] ],
     }
 
-    # install php7 package
-    package { 'php7':
+    # install php package
+    package { 'php':
       require => Exec['apt-update'],        # require 'apt-update' before installing
       ensure => installed,
     }
     package { 'php-mysql':
       require => Exec['apt-update'],        # require 'apt-update' before installing
       ensure => installed,
-    }
-    package { 'php-mcrypt':
-      require => Exec['apt-update'],        # require 'apt-update' before installing
-      ensure => installed,
-    }
-    exec { 'enable-mcrypt':
-      command => "phpenmod mcrypt; /etc/init.d/apache2 restart",
-      path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
-      cwd     => '/etc/apache2',
-      require => [ Package['php-mcrypt'] ],
-      unless  => 'php -i |grep -c mcrypt',
     }
 
     mysql::db { 'pixelbonus':
@@ -131,7 +119,7 @@ class pixelbonus (
       user    => $user,
       refreshonly => true,
       subscribe => Vcsrepo['/var/www/pixelbonus'],
-      require => [ Vcsrepo['/var/www/pixelbonus'], Class['composer'], Package['wkhtmltopdf'], Package['xvfb'] ],
+      require => [ Vcsrepo['/var/www/pixelbonus'], Package['wkhtmltopdf'], Package['xvfb'] ],
       tries => 10,
       try_sleep => 5,
     }
