@@ -111,15 +111,28 @@ class pixelbonus (
       ensure => installed,
     }
 
+    exec { 'composer-install':
+      environment => [ 'COMPOSER_HOME=/usr/local/lib/composer' ],
+      command     => '/usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php && mv composer.phar /usr/local/bin/composer',
+      require     => [Package['php']],
+      logoutput   => on_failure,
+      creates     => '/usr/local/bin/composer',
+    }
+
     exec { 'composer-update':
       command => "composer update --no-interaction",
       path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
       cwd     => '/var/www/pixelbonus',
-      environment => [ "COMPOSER_HOME=/usr/local/bin" ],
+      environment => [ 'COMPOSER_HOME=/usr/local/lib/composer' ],
       user    => $user,
       refreshonly => true,
       subscribe => Vcsrepo['/var/www/pixelbonus'],
-      require => [ Vcsrepo['/var/www/pixelbonus'], Package['wkhtmltopdf'], Package['xvfb'] ],
+      require => [
+        Vcsrepo['/var/www/pixelbonus'],
+        Package['wkhtmltopdf'],
+        Package['xvfb'],
+        Exec['composer-install'],
+        ],
       tries => 10,
       try_sleep => 5,
     }
