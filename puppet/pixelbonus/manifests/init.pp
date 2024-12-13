@@ -82,12 +82,24 @@ class pixelbonus (
       group => $group,
     }
 
-    file { 'ensure-cache-folder-permissions':
-      path   => '/usr/local/bin/cache',
+    file { '/usr/local/lib/composer':
       ensure => 'directory',
-      recurse => true,
       owner => $user,
       group => $group,
+    }
+
+    file { '/usr/local/lib/composer/cache':
+      ensure  => 'directory',
+      owner   => $user,
+      group   => $group,
+      require => File['/usr/local/lib/composer'],
+    }
+
+    file { '/usr/local/lib/composer/cache/vcs':
+      ensure  => 'directory',
+      owner   => $user,
+      group   => $group,
+      require => File['/usr/local/lib/composer/cache'],
     }
 
     vcsrepo { "/var/www/pixelbonus":
@@ -96,7 +108,11 @@ class pixelbonus (
         owner    => $user,
         group    => $group,
         provider => git,
-        require  => [ Package["git"], File['ensure-vcs-folder-permissions'], File['ensure-cache-folder-permissions'] ],
+        require  => [
+          Package["git"],
+          File['ensure-vcs-folder-permissions'],
+          File['/usr/local/lib/composer/cache/vcs'],
+        ],
         source   => $repo_url,
         revision => 'master',
     }
@@ -123,30 +139,15 @@ class pixelbonus (
       creates     => '/usr/local/bin/composer',
     }
 
-
-    file { '/var/www/.config':
-      ensure  => 'directory',
-      mode    => '0755',
-      owner   => $user,
-      group   => $group,
-      require => Package['apache2'],
-    }
-
-    file { '/var/www/.config/composer/':
-      ensure  => 'directory',
-      mode    => '0755',
-      owner   => $user,
-      group   => $group,
-      require => File['/var/www/.config'],
-    }
-
     # Requires passing the FACTER_GHP environment variable to puppet apply
-    file { '/var/www/.config/composer/auth.json':
+    file { '/usr/local/lib/composer/auth.json':
       ensure  => file,
+      owner   => $user,
+      group   => $group,
       content => epp('pixelbonus/auth.json.epp', {
         'ghp' => $facts['ghp'],
         }),
-      require => File['/var/www/.config/composer/'],
+      require => File['/usr/local/lib/composer'],
     }
 
     exec { 'composer-update':
@@ -155,6 +156,7 @@ class pixelbonus (
       cwd     => '/var/www/pixelbonus',
       environment => [ 'COMPOSER_HOME=/usr/local/lib/composer' ],
       user    => $user,
+      group   => $group,
       refreshonly => true,
       subscribe => Vcsrepo['/var/www/pixelbonus'],
       require => [
@@ -163,7 +165,7 @@ class pixelbonus (
         Package['xvfb'],
         Package['php-curl'],
         Exec['composer-install'],
-        File['/var/www/.config/composer/auth.json'],
+        File['/usr/local/lib/composer/auth.json'],
       ],
       tries => 10,
       try_sleep => 5,
