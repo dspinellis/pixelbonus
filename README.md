@@ -16,6 +16,9 @@ sudo apt install puppetserver
 Then
 * Add `/opt/puppetlabs/bin/puppet` in the sudo `secure_path` option.
 * Add `source /etc/profile.d/puppet-agent.sh` in ``/root/.bashrc`
+* Obtain a GitHub personal access token from [this page](https://github.com/settings/tokens/new?scopes=&description=Composer+on+pixelbonus).
+* Set the required environment variable with the token: `export FACTER_GHP=ghp_...`
+
 
 Continue as follows:
 ```
@@ -23,7 +26,7 @@ sudo puppet module install puppetlabs-mysql
 sudo puppet module install "willdurand-composer"
 sudo puppet module install "puppetlabs/vcsrepo"
 cd puppet
-sudo puppet apply --modulepath=`sudo puppet config print modulepath`:`pwd` site.pp
+sudo -E puppet apply --modulepath=`sudo puppet config print modulepath`:`pwd` site.pp
 ```
 
  - Change the secret key and mailer configuration at /var/www/pixelbonus/app/config/parameters.yml

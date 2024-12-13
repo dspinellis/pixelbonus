@@ -4,7 +4,6 @@ class pixelbonus (
     $repo_url = 'https://github.com/dnna/pixelbonus.git',
     $apt_update_threshold = 2419200
 ) {
-
     # execute 'apt-get update'
       exec { 'apt-update':                    # exec resource named 'apt-update'
       command => '/usr/bin/apt-get update',  # command this resource will run
@@ -124,6 +123,32 @@ class pixelbonus (
       creates     => '/usr/local/bin/composer',
     }
 
+
+    file { '/var/www/.config':
+      ensure  => 'directory',
+      mode    => '0755',
+      owner   => $user,
+      group   => $group,
+      require => Package['apache2'],
+    }
+
+    file { '/var/www/.config/composer/':
+      ensure  => 'directory',
+      mode    => '0755',
+      owner   => $user,
+      group   => $group,
+      require => File['/var/www/.config'],
+    }
+
+    # Requires passing the FACTER_GHP environment variable to puppet apply
+    file { '/var/www/.config/composer/auth.json':
+      ensure  => file,
+      content => epp('pixelbonus/auth.json.epp', {
+        'ghp' => $facts['ghp'],
+        }),
+      require => File['/var/www/.config/composer/'],
+    }
+
     exec { 'composer-update':
       command => "composer update --no-interaction",
       path    => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
@@ -138,7 +163,8 @@ class pixelbonus (
         Package['xvfb'],
         Package['php-curl'],
         Exec['composer-install'],
-        ],
+        File['/var/www/.config/composer/auth.json'],
+      ],
       tries => 10,
       try_sleep => 5,
     }

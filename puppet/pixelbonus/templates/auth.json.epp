@@ -1,0 +1,9 @@
+{
+    "bitbucket-oauth": {},
+    "github-oauth": {
+        "github.com": "<%= $ghp %>"},
+    "gitlab-oauth": {},
+    "gitlab-token": {},
+    "http-basic": {},
+    "bearer": {}
+}
