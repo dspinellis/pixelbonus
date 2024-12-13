@@ -10,8 +10,23 @@ class pixelbonus (
       onlyif => "/bin/bash -c 'exit $(( $(( $(date +%s) - $(stat -c %Y /var/lib/apt/lists/$( ls /var/lib/apt/lists/ -tr1|tail -1 )) )) <= ${apt_update_threshold} ))'" # Only update if repo older than a month
     }
 
-    # install apache2 package
-    package { 'apache2':
+    # Install required and convenience packages
+    package { [
+        # Required
+        'apache2',
+        'git',
+        'mariadb-server',
+        'php',
+        'php-curl',
+        'php-mysql',
+        'wkhtmltopdf',
+        'xvfb',
+        # Convenience
+        'jq',
+        'plocate',
+        'tree',
+        'strace',
+      ]:
       require => Exec['apt-update'],        # require 'apt-update' before installing
       ensure => installed,
     }
@@ -38,26 +53,10 @@ class pixelbonus (
       require => Exec['enable-mod-rewrite']
     }
 
-    # install mariadb-server package
-    package { 'mariadb-server':
-      require => Exec['apt-update'],        # require 'apt-update' before installing
-      ensure => installed,
-    }
-
     # ensure mysql service is running
     service { 'mysql':
       ensure => running,
       require => [ Package['mariadb-server'] ],
-    }
-
-    # install php package
-    package { 'php':
-      require => Exec['apt-update'],        # require 'apt-update' before installing
-      ensure => installed,
-    }
-    package { 'php-mysql':
-      require => Exec['apt-update'],        # require 'apt-update' before installing
-      ensure => installed,
     }
 
     mysql::db { 'pixelbonus':
@@ -66,12 +65,6 @@ class pixelbonus (
       host     => 'localhost',
       grant    => ['SELECT', 'UPDATE'],
       require => [ Service['mysql'] ],
-    }
-
-    # install git package
-    package { 'git':
-      require => Exec['apt-update'],        # require 'apt-update' before installing
-      ensure => installed,
     }
 
     file { 'ensure-vcs-folder-permissions':
@@ -115,20 +108,6 @@ class pixelbonus (
         ],
         source   => $repo_url,
         revision => 'master',
-    }
-
-    package { 'wkhtmltopdf':
-      require => Exec['apt-update'],        # require 'apt-update' before installing
-      ensure => installed,
-    }
-    package { 'php-curl':
-      require => Exec['apt-update'],        # require 'apt-update' before installing
-      ensure => installed,
-    }
-
-    package { 'xvfb':
-      require => Exec['apt-update'],        # require 'apt-update' before installing
-      ensure => installed,
     }
 
     exec { 'composer-install':
