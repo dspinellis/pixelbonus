@@ -18,7 +18,10 @@ class pixelbonus (
         'mariadb-server',
         'php',
         'php-curl',
+        'php-dom',
+        'php-gd',
         'php-mysql',
+        'php-xml',
         'wkhtmltopdf',
         'xvfb',
         # Convenience
