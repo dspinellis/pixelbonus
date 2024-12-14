@@ -4,6 +4,8 @@ class pixelbonus (
     $repo_url = 'https://github.com/dnna/pixelbonus.git',
     $apt_update_threshold = 2419200
 ) {
+  $db_grant_file = '/var/run/pixelbonus-db-permissions-granted'
+
     # execute 'apt-get update'
       exec { 'apt-update':                    # exec resource named 'apt-update'
       command => '/usr/bin/apt-get update',  # command this resource will run
@@ -68,6 +70,13 @@ class pixelbonus (
       host     => 'localhost',
       grant    => ['SELECT', 'UPDATE'],
       require => [ Service['mysql'] ],
+    }
+
+    exec { 'db-access-rights':
+      command     => "/usr/bin/mysql -e \"GRANT ALL PRIVILEGES ON pixelbonus.* TO 'pixelbonus'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;\" && touch $db_grant_file ",
+      require     => Mysql::Db['pixelbonus'],
+      logoutput   => on_failure,
+      creates     => $db_grant_file,
     }
 
     file { 'ensure-vcs-folder-permissions':
