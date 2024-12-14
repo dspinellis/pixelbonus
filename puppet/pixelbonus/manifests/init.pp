@@ -162,6 +162,14 @@ class pixelbonus (
       try_sleep => 5,
     }
 
+    file {'/var/www/pixelbonus/app/qruploads':
+      ensure => 'directory',
+      owner => $user,
+      group => $group,
+      mode   => '0755',
+      require => Vcsrepo['/var/www/pixelbonus'],
+    }
+
     file { 'document-root':
       path   => '/var/www/html',
       force  => true,
