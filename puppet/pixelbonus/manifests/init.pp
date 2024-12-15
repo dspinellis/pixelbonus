@@ -4,8 +4,6 @@ class pixelbonus (
     $repo_url = 'https://github.com/dnna/pixelbonus.git',
     $apt_update_threshold = 2419200
 ) {
-  $db_grant_file = '/var/run/pixelbonus-db-permissions-granted'
-
     # execute 'apt-get update'
       exec { 'apt-update':                    # exec resource named 'apt-update'
       command => '/usr/bin/apt-get update',  # command this resource will run
@@ -17,7 +15,6 @@ class pixelbonus (
         # Required
         'apache2',
         'git',
-        'mariadb-server',
         'php',
         'php-curl',
         'php-dom',
@@ -58,25 +55,11 @@ class pixelbonus (
       require => Exec['enable-mod-rewrite']
     }
 
-    # ensure mysql service is running
-    service { 'mysql':
-      ensure => running,
-      require => [ Package['mariadb-server'] ],
-    }
-
     mysql::db { 'pixelbonus':
       user     => 'pixelbonus',
       password => 'pixelbonus',
       host     => 'localhost',
-      grant    => ['SELECT', 'UPDATE'],
-      require => [ Service['mysql'] ],
-    }
-
-    exec { 'db-access-rights':
-      command     => "/usr/bin/mysql -e \"GRANT ALL PRIVILEGES ON pixelbonus.* TO 'pixelbonus'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;\" && touch $db_grant_file ",
-      require     => Mysql::Db['pixelbonus'],
-      logoutput   => on_failure,
-      creates     => $db_grant_file,
+      grant    => ['ALL'],
     }
 
     file { 'ensure-vcs-folder-permissions':
@@ -195,5 +178,14 @@ class pixelbonus (
       user    => $user,
       minute  => "*/1",
       require => [ Exec['schema-update'] ],
+    }
+
+    class { "::mysql::server":
+      root_password => "",
+    }
+
+    class { mysql::server::backup:
+      backupdatabases => [pixelbonus],
+      backupdir => "/root/pixelbonus_backups",
     }
 }

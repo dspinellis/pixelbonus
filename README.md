@@ -54,20 +54,18 @@ The configuration settings are located in **app/config/parameters.yml**. The fil
  - wkhtmltopdf: Absolute path to the wkhtmltopdf binary.
 
 ## Backing up
-Pixelbonus stores all data in its MySQL database. Puppet can be easily set up to generate daily backups of the database. To do this run the following command in the shell of the server:
+Pixelbonus stores all data in its MySQL database and is set up to backup
+the database daily into `/root/pixelbonus_backups`.
+From there it is prudent to copy the files safely to a remote host,
+e.g. using [backsh](https://github.com/dspinellis/backsh)
+with a *crontab* file such as the following:
 
-```puppet
-puppet apply -e '
-class { "::mysql::server":
-  root_password => "",
-}
-class { mysql::server::backup:
-  backupdatabases => [pixelbonus],
-  backupdir => "/root/pixelbonus_backups",
-}'
+```
+33 23 * * * /usr/bin/bash -c 'ssh remote-backup@example.com  pixelbonus/backup.sql.bz2 </root/pixelbonus_backups/mysql_backup_pixelbonus_$(date +\%Y\%m\%d)*'
+
 ```
 
-This will set up a cron job that runs every day at 23:05 and generates a database backup in /root/pixelbonus_backups. The resulting files can be synced to a remote host using rsync or similar utilities.
+Remmeber to set up correctly the system time zone.
 
 ## Updating
 The project is based on the Symfony framework and utilizes a number of bundles, some of which might eventually need to be updated in order to resolve bugs or security issues. To update these libraries run the following command in the shell of the server while in the project's root folder:
