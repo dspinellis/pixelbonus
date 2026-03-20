@@ -16,7 +16,7 @@ The specifications are described below.
     and visit the user's profile page.
   - At the page bottom links to
     - the project on GitHub https://github.com/dspinellis/pixelbonus with GitHub's icon
-    - Link to a GDPR-compliant privacy statement
+    - Link to a GDPR-compliant privacy statement (generate or find suitable)
 
 ## Home page under pixelbonus.com
 - Appears in the browser's preferred language; English by default.
@@ -27,7 +27,6 @@ Page split in half:
 "Here you can redeem your personal QR code with only 2 clicks. Enter the code and your personal identifier and your participation will be instantly counted."
 - Large icon of a professor, "I'm an instructor"
 "With PixelBonus, you can reward active participation of the students by providing personal QR codes that they can redeem quickly and easily. Create an activity/course, print the codes and form rankings using several grading models."
-In Greek
 
 ## Instructor features
 
@@ -40,7 +39,7 @@ Typical login screen with the following fields/buttons.
 - Register
 
 ### Email-based instructor registration
-  - Provide full name, email, password
+  - Provide full name, (unique) email, password
   - Token confirmation via email
 
 ### Password recovery
@@ -48,6 +47,9 @@ Typical login screen with the following fields/buttons.
 - Button: "Email me a link to set up a new password."
 
 ### Profile page to change password
+
+### Login
+For instructors only, with email and password.
 
 ### Course functionality
 List of existing courses starting with option to add a new course
@@ -86,7 +88,7 @@ List of existing courses starting with option to add a new course
   - Adds generated token identifiers in the database, associated with the
     selected course, a timestamp of the token set creation time,
     and marked as unused.
-  - Creates asynchronously A4 / letter-sized PDF with coupons associated
+  - Creates asynchronously A4 PDF with coupons associated
     with the tokens. Each page contains 20 coupons in 10 rows by two columns
     and on the margins suitable cut marks for splitting the individual
     coupons.
@@ -99,7 +101,8 @@ List of existing courses starting with option to add a new course
     - Below the printed code the string pixelbonus.com in a larger font.
   - When the PDF is created, it emails to the instructor a message to
     download the generated file through a secure link (a long random string)
-    URL.
+    URL. This can be used multiple times and remains valid forever.
+    You can suggest a cron job to delete old files.
 
 ### View and download course participation grades with the following flow.
   - Click on the corresponding course's icon.
@@ -153,9 +156,11 @@ Responses can be:
 # Non-functional constraints:
 
 - Single static binary
-- Only standard library unless absolutely necessary
+- Only standard library unless absolutely necessary (e.g. for QR code
+  generation)
 - SQLite database
 - No ORM
+- No error correction in the QRs
 - No external JS frameworks
 - Designed for Debian stable
 - systemd-friendly
@@ -164,9 +169,14 @@ Responses can be:
 - Language strings stored in a way that helps localisation
 - Main palette color: 18bc9c, secondary: 2c3e50
 - Automatic initialization of database schema
+- Devise readable URLs for all routes
+- Email can be send with the Unix mail command
+- Mail sender should be no-reply@pixelbonus.com
+- Student identifiers are arbitrary strings (up to 20 characters)
+  with no linkage between courses.
 
 Security:
-- TLS
+- TLS using letsencrypt certificate
 - CSRF protection
 - Password hashing (bcrypt or argon2)
 - Secure session handling

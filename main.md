@@ -40,3 +40,6 @@ listed in the file `specs.md` or in the files `specs-*.md`.
 - As much as possible add and run unit tests for all generated code.
 - No need to create unit tests for trivial methods (e.g. getters and setters).
 - The project must always be implementable from the specifications.
+
+# Other notes
+- Ignore editor swap files (e.g. .*.swp)
