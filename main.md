@@ -31,7 +31,11 @@ implementation language.
 
 # Modular design
 For large complex systems first design the system in terms of
-modules by following the instructions below.
+modules by splitting the original `specs.md` file (if it exists)
+are specified below.
+If instead of the file `specs.md` you see a directory `spacs` then
+this means that the modular design is done and you can continue with
+modular implementation as specified in the corresponding section.
 
 - Select the most appropriate architecture for the specific
   system and document it in a file named `specs/architecture.md`.
