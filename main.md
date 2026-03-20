@@ -35,7 +35,7 @@ modules by following the instructions below.
 
 - Select the most appropriate architecture for the specific
   system and document it in a file named `specs/architecture.md`.
-- Split accordingly the specifications into multiple small
+- Split accordingly the specifications `specs.md` into multiple small
   self-contained specification files for separate implementation
   module (e.g., `specs/input.md`, `specs/processing.md`,
   `specs/output.md`) with clearly-defined interfaces.
@@ -64,7 +64,8 @@ modules by following the instructions below.
 
 # Modular implementation
 For large complex systems the specifications are provided in a
-directory named `specs`.
+directory named `specs`.  If this directory doesn't exist follow
+the instructions under _Modular design_ to create it.
 Implement the system by following the instructions below.
 
 - Implement and test each specification separately.
