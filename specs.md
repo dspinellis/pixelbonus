@@ -17,6 +17,7 @@ The specifications are described below.
   - At the page bottom links to
     - the project on GitHub https://github.com/dspinellis/pixelbonus with GitHub's icon
     - Link to a GDPR-compliant privacy statement (generate or find suitable)
+      for EU (Greece) jurisdiction.
 
 ## Home page under pixelbonus.com
 - Appears in the browser's preferred language; English by default.
@@ -32,7 +33,7 @@ Page split in half:
 
 ### Non-logged in instructor
 Typical login screen with the following fields/buttons.
-- Username
+- Email
 - Password
 - Login
 - I forgot my password
@@ -40,11 +41,13 @@ Typical login screen with the following fields/buttons.
 
 ### Email-based instructor registration
   - Provide full name, (unique) email, password
-  - Token confirmation via email
+  - Token confirmation via email following best practices aiming toward
+    usability.
 
 ### Password recovery
 - Email
 - Button: "Email me a link to set up a new password."
+- The flow follows usual best practices aiming toward usability.
 
 ### Profile page to change password
 
@@ -93,17 +96,18 @@ List of existing courses starting with option to add a new course
     with the tokens. Each page contains 20 coupons in 10 rows by two columns
     and on the margins suitable cut marks for splitting the individual
     coupons.
+    Font size should be suitable for displaying the coupon's elements.
     Each coupon contains:
     - a QR code for redeeming the coupon with a URL of the form
       https://pixelbonus.com/r?c=CODE, where CODE is a URL-safe
       encoding of the token code.
-    - On its right, the token's code printed in 10 groups of four-digit hex
-      characters in a fixed-width font.
+    - On its right, the token's code printed in 10 space-separated
+      groups of four-digit hex characters in a fixed-width font.
     - Below the printed code the string pixelbonus.com in a larger font.
   - When the PDF is created, it emails to the instructor a message to
     download the generated file through a secure link (a long random string)
-    URL. This can be used multiple times and remains valid forever.
-    You can suggest a cron job to delete old files.
+    URL. This can be used by anybody who has it, multiple times, and remains
+    valid forever.  You can suggest a cron job to delete old files.
 
 ### View and download course participation grades with the following flow.
   - Click on the corresponding course's icon.
@@ -127,6 +131,8 @@ List of existing courses starting with option to add a new course
 ## Student features
 
 Students never need to register or authenticate.
+They can redeem an unlimited number of tokens per course, but each
+token can only be redeemed once.
 
 ### Redeem coupon through QR link
 - The landing page contains
@@ -144,8 +150,8 @@ Responses can be:
 ### Redeem code through identifier
 - The page contains
   - A field for inputting the coupon code in hex.
-    Spaces are ignored, case is normalized, invalid characters
-    are not allowed to be typed.
+    Spaces (separators) are allowed and ignored, case is normalized,
+    invalid characters are not allowed to be typed.
   - A field for inputting the student id
   - A button for redeeming the coupon
 
@@ -179,7 +185,8 @@ Responses can be:
   with no linkage between courses.
 
 Security:
-- TLS using letsencrypt certificate
+- TLS using letsencrypt certificate installed separately from the application
+  in the locations commonly used in Debian systems.
 - CSRF protection
 - Password hashing (bcrypt or argon2)
 - Secure session handling
