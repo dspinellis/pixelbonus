@@ -1,0 +1,182 @@
+Develop a complete Go 1.15 web application for allowing students
+to register their in-class participation in a course via instructor-supplied
+printed QR codes handed to them.
+
+The specifications are described below.
+
+# Functional specifications
+
+## All pages
+- HTML title PixelBonus
+- On the left display the word PixelBonus, linking to the home page.
+- On the right display 
+  - the currently selected interface language and a menu to change it
+    (English or Greek)
+  - The currently logged in user (if logged in) with menu options to log out
+    and visit the user's profile page.
+  - At the page bottom links to
+    - the project on GitHub https://github.com/dspinellis/pixelbonus with GitHub's icon
+    - Link to a GDPR-compliant privacy statement
+
+## Home page under pixelbonus.com
+- Appears in the browser's preferred language; English by default.
+Title: Your participation counts!
+
+Page split in half:
+- Large student icon, "I'm a participant"
+"Here you can redeem your personal QR code with only 2 clicks. Enter the code and your personal identifier and your participation will be instantly counted."
+- Large icon of a professor, "I'm an instructor"
+"With PixelBonus, you can reward active participation of the students by providing personal QR codes that they can redeem quickly and easily. Create an activity/course, print the codes and form rankings using several grading models."
+In Greek
+
+## Instructor features
+
+### Non-logged in instructor
+Typical login screen with the following fields/buttons.
+- Username
+- Password
+- Login
+- I forgot my password
+- Register
+
+### Email-based instructor registration
+  - Provide full name, email, password
+  - Token confirmation via email
+
+### Password recovery
+- Email
+- Button: "Email me a link to set up a new password."
+
+### Profile page to change password
+
+### Course functionality
+List of existing courses starting with option to add a new course
+
+- Courses are listed with most recently created ones the top.
+- On the left of each course the following links are provided through icons
+  with bubble help.
+   - Produce a new set of QR coupons
+   - View course's grades
+   - Download course's grades in CSV format
+   - Public page of redeemed tokens
+   - Settings
+
+### Course settings page
+- Course name
+- Grading method (radio buttons)
+  - ≥Q2 = 10
+  - ≥Q3 = 10
+  - Q4 = 10
+  - Q2 = 5, ≥Q3 = 10
+  - Q2 = 5, Q4 = 10
+  - Q1 = 5, ≥Q2 = 10
+  - Q1 = 5, ≥Q3 = 10
+  - Q1 = 5, Q4 = 10
+- Save button
+
+### Creation of a new course
+  - Course name (with suggestion to include the year or semester)
+  - Grading method
+  - Create button
+
+### Produce QR code tokens with the following flow:
+  - Click on the corresponding course's icon.
+  - User Provides number of required QR code tokens
+  - Program creates a set of 160 bit token identifiers
+  - Adds generated token identifiers in the database, associated with the
+    selected course, a timestamp of the token set creation time,
+    and marked as unused.
+  - Creates asynchronously A4 / letter-sized PDF with coupons associated
+    with the tokens. Each page contains 20 coupons in 10 rows by two columns
+    and on the margins suitable cut marks for splitting the individual
+    coupons.
+    Each coupon contains:
+    - a QR code for redeeming the coupon with a URL of the form
+      https://pixelbonus.com/r?c=CODE, where CODE is a URL-safe
+      encoding of the token code.
+    - On its right, the token's code printed in 10 groups of four-digit hex
+      characters in a fixed-width font.
+    - Below the printed code the string pixelbonus.com in a larger font.
+  - When the PDF is created, it emails to the instructor a message to
+    download the generated file through a secure link (a long random string)
+    URL.
+
+### View and download course participation grades with the following flow.
+  - Click on the corresponding course's icon.
+  - Calculated grades on a 0-10 scale based on the number of redeemed
+    coupons and the specified grading method.
+    Grade is capped at 10, and rounded to an integer.
+  - Calculated rank based on the number of redeemed coupons.
+  - Output contains ordered by student id:
+    - Student id
+    - Number of redemptions
+    - Grade
+    - Rank
+
+### View public redemption page
+  - This page is publicly accessible for each course
+    without registration or login.
+  - This page contains ordered by student id:
+    - Student id
+    - Number of redemptions
+
+## Student features
+
+### Redeem coupon through QR link
+- The landing page contains
+  - The course name (read-only)
+  - The coupon code (read-only)
+  - A field for inputting the student id
+  - A button for redeeming the coupon
+
+Responses can be:
+  - Coupon (coupon number) for course (name) and student identifier (id)
+   successfully redeemed.
+  - Coupon (coupon number) for course (name) has been already redeemed.
+  - Invalid coupon identifier (coupon number).
+
+### Redeem code through identifier
+- The page contains
+  - A field for inputting the coupon code in hex.
+    Spaces are ignored, case is normalized, invalid characters
+    are not allowed to be typed.
+  - A field for inputting the student id
+  - A button for redeeming the coupon
+
+Responses can be:
+  - Coupon (coupon number) for course (name) and student identifier (id)
+   successfully redeemed.
+  - Coupon (coupon number) for course (name) has been already redeemed.
+  - Invalid coupon identifier (coupon number).
+
+
+# Non-functional constraints:
+
+- Single static binary
+- Only standard library unless absolutely necessary
+- SQLite database
+- No ORM
+- No external JS frameworks
+- Designed for Debian stable
+- systemd-friendly
+- Stand-alone installation (no need for a reverse proxy)
+- Interface in English and Greek with ability to select language
+- Language strings stored in a way that helps localisation
+- Main palette color: 18bc9c, secondary: 2c3e50
+- Automatic initialization of database schema
+
+Security:
+- TLS
+- CSRF protection
+- Password hashing (bcrypt or argon2)
+- Secure session handling
+- Input validation
+- Login/logout with secure cookies
+
+Deliverables:
+- Full directory structure
+- go.mod
+- SQL schema
+- Main.go
+- Minimal templates
+- systemd service file
