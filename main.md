@@ -1,6 +1,9 @@
 # Goal
 In a single shot implement software according to the specifications
-listed in the file `specs.md` or in the files `specs-*.md`.
+listed in the file `specs.md` or in the files in the `specs` directory.
+Place the source code in a directory named `src` and tests in a directory
+named `tests`. In addition, follow the conventions of the system's
+implementation language.
 
 # Method
 - If the specifications are incomplete or not committed, stop with a message
@@ -8,16 +11,16 @@ listed in the file `specs.md` or in the files `specs-*.md`.
 - If at some point you realize that the specifications are incomplete,
   stop and ask for help.  The help will entail adjusting the specifications.
 - For large complex systems follow the instructions under the heading
-  modular development.
+  _modular design_ and _modular implementation_.
 - In a file named `progress.md` list each specification file, its
   short Git commit hash, and its status as `implemented` possibly
   followed by `tested`, and the associated code files.
-- If the system uses a database add a file named `schema.sql` detailing
-  the database's schema via SQL Data Definition Language statements
+- If the system uses a database, you must add a file named `schema.sql`
+  detailing the database's schema via SQL Data Definition Language statements
   and suitable comments.  Have the software initialize the database
   by means of that file.
 - If specifications change the corresponding code files must be removed
-  and recreated from the specifications ONLY.
+  and recreated from the corresponding specifications ONLY.
 - Create integration tests and run them once all specifications are
   implemented.
 - Create a file named `implementation-notes.md` where you record
@@ -26,24 +29,28 @@ listed in the file `specs.md` or in the files `specs-*.md`.
   testing, deploying, running, and monitoring (if needed) the created
   software.
 
-# Modular development
-For large complex systems follow the instructions below.
+# Modular design
+For large complex systems first design the system in terms of
+modules by following the instructions below.
 
 - Select the most appropriate architecture for the specific
-  system and document it in a file named `specs-architecture.md`.
+  system and document it in a file named `specs/architecture.md`.
 - Split accordingly the specifications into multiple small
   self-contained specification files for separate implementation
-  module (e.g., `specs-input.md`, `specs-processing.md`,
-  `specs-output.md`) with clearly-defined interfaces.
-- Add a file `specs-api.md` that specifies the API provided by each
+  module (e.g., `specs/input.md`, `specs/processing.md`,
+  `specs/output.md`) with clearly-defined interfaces.
+- Add a file `specs/api.md` that specifies the API provided by each
   file implementing a specific part of the specifications.  This must
   provide the complete information needed to utilize that part of the
   specifications, namely what to import/link/include, each provided
   function/method/class/endpoint, its arguments, and return value.
-- Add a file `specs-integration.md` specifying how the separately
+- Start each specification file with the path of the corresponding
+  source code file and a list of the names of the implemented
+  APIs.
+- Add a file `specs/integration.md` specifying how the separately
   specified modules work together. This includes where any entry
   point resides and how the modules work together.
-- Add a file `specs-global.md`, which contains other global functional and
+- Add a file `specs/global.md`, which contains other global functional and
   non-functional specifications applicable to all split parts.
 - Create a file name `use-cases.md` where you name each use case
   and the associated specification file(s).
@@ -55,19 +62,32 @@ For large complex systems follow the instructions below.
   specifications to be removed in favor of the split ones or for the
   original ones to be adjusted to specify a different setup.
 
+# Modular implementation
+For large complex systems the specifications are provided in a
+directory named `specs`.
+Implement the system by following the instructions below.
+
+- Implement and test each specification separately.
+- Implement and test each source code file by reading only its own
+  specification, together with the following files:
+  - `specs/api.md`,
+  - `specs/integration.md`
+  - `specs/global.md`
+  No other files shall be consulted.
+- If an implementation source file is missing or was created before its
+  specifications' (own, API, integration, global) most recent commits,
+  delete the source file and recreate it based on the dependent files.
+
 # Constraints
 - Aim at code that can be automatically tested.
   - Split correspondingly the specifications.
   - Design and write testable code.
-- Each specification shall be implemented separately and fully tested.
-- Each specification shall only be implemented in terms of its
-  specification file and `specs-global.md`. No other specification files
-  shall be consulted.
 - As much as possible add and run unit tests for all generated code.
 - No need to create unit tests for trivial methods (e.g. getters and setters).
 - The project must always be implementable from the specifications.
+  The source code should never need manual tweaks.
 - Do not repeat content from this file in other specification files.
-- In split systems, do not not provide or use any  functionality from another
+- In modular systems, do not not provide or use any functionality from another
   module without using a corresponding API.
 - Test all provided APIs.
 
