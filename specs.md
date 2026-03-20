@@ -65,7 +65,8 @@ List of existing courses starting with option to add a new course
 
 ### Course settings page
 - Course name
-- Grading method (radio buttons)
+- Grading method (radio buttons) based on participation distribution
+  quartiles.
   - ≥Q2 = 10
   - ≥Q3 = 10
   - Q4 = 10
@@ -124,6 +125,8 @@ List of existing courses starting with option to add a new course
     - Number of redemptions
 
 ## Student features
+
+Students never need to register or authenticate.
 
 ### Redeem coupon through QR link
 - The landing page contains
