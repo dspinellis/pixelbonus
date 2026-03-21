@@ -8,16 +8,18 @@ The specifications are described below.
 
 ## All pages
 - HTML title PixelBonus
+- Sans Serif font
 - On the left display the word PixelBonus, linking to the home page.
 - On the right display 
-  - the currently selected interface language and a menu to change it
+  - the currently selected interface language and a pulldown menu to change it
     (English or Greek).  Language is persisted using an implementadion-defined
     cookie.
-  - The currently logged in user (if logged in) with menu options to log out
-    and visit the user's profile page.
+  - The currently logged in user (if logged in) with pulldown menu options
+    to log out and visit the user's profile page.
   - At the page bottom links to
     - the project on GitHub https://github.com/dspinellis/pixelbonus with GitHub's icon
-    - Link to the privacy policy provided here as `privacy_policy.md`.
+    - Link to the privacy policy provided here as `privacy_policy.md` but
+      converted into HTML.
 
 ## Home page under pixelbonus.com
 - Appears in the browser's preferred language; English by default.
@@ -29,22 +31,24 @@ Page split in half:
 - Large icon of a professor, "I'm an instructor"
 "With PixelBonus, you can reward active participation of the students by providing personal QR codes that they can redeem quickly and easily. Create an activity/course, print the codes and form rankings using several grading models."
 
+Links to the two functionalities are provided by buttons.
+
 ## Instructor features
 
 ### Non-logged in instructor
-Login screen with the following fields/buttons.
-- Email
-- Password
-- Login
-- I forgot my password
-- Register
+Login screen with the following elements.
+- Email (field)
+- Password (field)
+- Login (button)
+- I forgot my password (button)
+- Register (button)
 
 ### Email-based instructor registration
   - Provide full name, (unique) email, password
   - Token confirmation via email containing a validation URL with a random
     nonce valid for 24 hours.
   - When URL is accessed email is considered verified and only then
-    the user can log in.
+    the user can log in via an offered link to the login page.
 
 ### Password recovery
 - Email
@@ -63,8 +67,8 @@ For instructors only, with email and password.
 List of existing courses starting with option to add a new course
 
 - Courses are listed with most recently created ones the top.
-- On the left of each course the following links are provided through icons
-  with bubble help.
+- On the left of each course the following links are provided through button
+  icons with bubble help.
    - Produce a new set of QR coupons
    - View course's grades
    - Download course's grades in CSV format
@@ -97,12 +101,13 @@ List of existing courses starting with option to add a new course
   - Program acknowledges action with a message indicating that the
     user will be notified when coupons are ready.
   - Program initiates asynchronous generation of coupons.
-  - Program creates a set of 160 bit token identifiers.
+  - Program creates a set with the specified number of 160 bit token
+    identifiers.
   - Adds generated token identifiers in the database, associated with the
     selected course, a timestamp of the token set creation time,
     and marked as unused.
   - Creates asynchronously A4 PDF with coupons associated
-    with the tokens. Each page contains 20 coupons in 10 rows by two columns
+    with the tokens. Each page contains 20 coupons in 10 rows by 2 columns
     and on the margins cut marks for splitting the individual coupons.
   - Coupon size is determined by A4 page size with 1 cm margins.
   - Font size should be the largest that can allow displaying the coupon's
@@ -204,8 +209,24 @@ Responses can be:
 - Mail sender should be no-reply@pixelbonus.com
 - Student identifiers are arbitrary strings (up to 20 characters)
   with no linkage between courses.
+- Log actions to the file `pixelbonus.log` in the current directory.
+- Read optional configuration file specified in an environment variable
+  for port to listen, log file directory, and template directory.
 
-Security:
+## Localization and internationalization
+Internationalization is REQUIRED.
+
+- Every user-visible string MUST exist in both English and Greek.
+- Hardcoded strings in templates are FORBIDDEN.
+- All UI text must be loaded via a translation system.
+- If any string appears only in English, the solution is invalid.
+
+Use a translation system with:
+- translation files (e.g. en.json, el.json)
+- key-based lookup (no inline strings)
+- runtime language selection
+
+## Security:
 - TLS using letsencrypt certificate installed separately from the application
   using the files located in
   `/etc/letsencrypt/live/pixelbonus.com/{fullchain.pem,privkey.pem}`
@@ -222,5 +243,5 @@ Deliverables:
 - go.mod
 - SQL schema
 - Main.go
-- Minimal templates
+- Templates in both languages
 - systemd service file
