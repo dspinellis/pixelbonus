@@ -19,7 +19,8 @@ The specifications are described below.
   - At the page bottom links to
     - the project on GitHub https://github.com/dspinellis/pixelbonus with GitHub's icon
     - Link to the privacy policy provided here as `privacy_policy.md` but
-      converted into HTML.
+      converted into HTML. (This can contain placeholders. Just document
+      them in the README file.)
 
 ## Home page under pixelbonus.com
 - Appears in the browser's preferred language; English by default.
