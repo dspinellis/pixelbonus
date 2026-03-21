@@ -1,9 +1,0 @@
-{{define "coupon_form"}}
-<h1>Generate Coupons for {{.Course.Name}}</h1>
-{{if .Error}}<p class="error">{{.Error}}</p>{{end}}
-<form method="post" action="/instructor/courses/{{.Course.ID}}/coupons">
-  <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
-  <label>Number of required QR code tokens <input type="number" name="quantity" min="20" step="20"></label>
-  <button type="submit">Generate</button>
-</form>
-{{end}}

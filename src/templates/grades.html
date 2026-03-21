@@ -1,9 +1,0 @@
-{{define "grades"}}
-<h1>Grades for {{.Course.Name}}</h1>
-<table>
-  <tr><th>Student id</th><th>Redemptions</th><th>Grade</th><th>Rank</th></tr>
-  {{range .Rows}}
-  <tr><td>{{.StudentID}}</td><td>{{.Redemptions}}</td><td>{{.Grade}}</td><td>{{.Rank}}</td></tr>
-  {{end}}
-</table>
-{{end}}

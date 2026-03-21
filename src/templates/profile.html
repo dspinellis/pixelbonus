@@ -1,9 +1,0 @@
-{{define "profile"}}
-<h1>Profile</h1>
-{{if .Error}}<p class="error">{{.Error}}</p>{{end}}
-<form method="post" action="/instructor/profile/password">
-  <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
-  <label>New password <input type="password" name="password"></label>
-  <button type="submit">Change password</button>
-</form>
-{{end}}
