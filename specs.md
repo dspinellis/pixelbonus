@@ -16,7 +16,7 @@ The specifications are described below.
     and visit the user's profile page.
   - At the page bottom links to
     - the project on GitHub https://github.com/dspinellis/pixelbonus with GitHub's icon
-    - Link to a GDPR-compliant privacy statement (generate a draft
+    - Link to a GDPR-compliant privacy statement (generate a non-final draft
       placeholder one for EU (Greece) jurisdiction).
 
 ## Home page under pixelbonus.com
@@ -32,7 +32,7 @@ Page split in half:
 ## Instructor features
 
 ### Non-logged in instructor
-Typical login screen with the following fields/buttons.
+Login screen with the following fields/buttons.
 - Email
 - Password
 - Login
@@ -49,7 +49,10 @@ Typical login screen with the following fields/buttons.
 ### Password recovery
 - Email
 - Button: "Email me a link to set up a new password."
-- The flow follows usual best practices aiming toward usability.
+- Acknowledgment message discloses account's existence.
+- Email contains a URL based on a suitably encoded random nonce
+  that leads to a page where a new password can be specified.
+- Link is valid for one hour.
 
 ### Profile page to change password
 
@@ -97,9 +100,10 @@ List of existing courses starting with option to add a new course
     and marked as unused.
   - Creates asynchronously A4 PDF with coupons associated
     with the tokens. Each page contains 20 coupons in 10 rows by two columns
-    and on the margins suitable cut marks for splitting the individual
-    coupons.
-    Font size should be suitable for displaying the coupon's elements.
+    and on the margins cut marks for splitting the individual coupons.
+  - Coupon size is determined by A4 page size with 1 cm margins.
+  - Font size should be the largest that can allow displaying the coupon's
+    elements.
     Each coupon contains:
     - a QR code (error correction level L) for redeeming the coupon with
       a URL of the form
@@ -189,7 +193,7 @@ Responses can be:
 - Language strings stored in a way that helps localisation
 - Main palette color: 18bc9c, secondary: 2c3e50
 - Automatic initialization of database schema
-- Devise readable URLs for all routes
+- During design specify readable URLs for all routes
 - Email can be send with the Unix mail command
 - Mail sender should be no-reply@pixelbonus.com
 - Student identifiers are arbitrary strings (up to 20 characters)
