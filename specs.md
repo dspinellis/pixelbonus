@@ -16,8 +16,8 @@ The specifications are described below.
     and visit the user's profile page.
   - At the page bottom links to
     - the project on GitHub https://github.com/dspinellis/pixelbonus with GitHub's icon
-    - Link to a GDPR-compliant privacy statement (generate or find suitable)
-      for EU (Greece) jurisdiction.
+    - Link to a GDPR-compliant privacy statement (generate a draft
+      placeholder one for EU (Greece) jurisdiction).
 
 ## Home page under pixelbonus.com
 - Appears in the browser's preferred language; English by default.
@@ -41,8 +41,10 @@ Typical login screen with the following fields/buttons.
 
 ### Email-based instructor registration
   - Provide full name, (unique) email, password
-  - Token confirmation via email following best practices aiming toward
-    usability.
+  - Token confirmation via email containing a validation URL with a random
+    nonce valid for 24 hours.
+  - When URL is accessed email is considered verified and only then
+    the user can log in.
 
 ### Password recovery
 - Email
@@ -68,11 +70,12 @@ List of existing courses starting with option to add a new course
 
 ### Course settings page
 - Course name
-- Grading method (radio buttons) based on participation distribution
-  quartiles.
-  - ≥Q2 = 10
-  - ≥Q3 = 10
-  - Q4 = 10
+- Grading method (radio buttons) based on linear interpolation between
+  participation distribution quartiles.
+
+  - 0 = 0, ≥Q2 = 10
+  - 0 = 0, ≥Q3 = 10
+  - 0 = 0, Q4 = 10
   - Q2 = 5, ≥Q3 = 10
   - Q2 = 5, Q4 = 10
   - Q1 = 5, ≥Q2 = 10
@@ -87,7 +90,7 @@ List of existing courses starting with option to add a new course
 
 ### Produce QR code tokens with the following flow:
   - Click on the corresponding course's icon.
-  - User Provides number of required QR code tokens
+  - User Provides number of required QR code tokens in multiples of 20.
   - Program creates a set of 160 bit token identifiers
   - Adds generated token identifiers in the database, associated with the
     selected course, a timestamp of the token set creation time,
@@ -98,22 +101,30 @@ List of existing courses starting with option to add a new course
     coupons.
     Font size should be suitable for displaying the coupon's elements.
     Each coupon contains:
-    - a QR code for redeeming the coupon with a URL of the form
+    - a QR code (error correction level L) for redeeming the coupon with
+      a URL of the form
       https://pixelbonus.com/r?c=CODE, where CODE is a URL-safe
       encoding of the token code.
     - On its right, the token's code printed in 10 space-separated
       groups of four-digit hex characters in a fixed-width font.
     - Below the printed code the string pixelbonus.com in a larger font.
+  - The PDF is created in `/var/tmp/pixelbonus/BASENAME.pdf`, where
+    BASENAME is derived by hex-encoding a 128-bit random nonce.
   - When the PDF is created, it emails to the instructor a message to
-    download the generated file through a secure link (a long random string)
-    URL. This can be used by anybody who has it, multiple times, and remains
-    valid forever.  You can suggest a cron job to delete old files.
+    download the generated file through a secure link URL based on the
+    file name. This can be used by anybody who has it, multiple times,
+    and remains valid forever.
+  - Deployment instructions provide a cron job to delete old files.
 
 ### View and download course participation grades with the following flow.
   - Click on the corresponding course's icon.
   - Calculated grades on a 0-10 scale based on the number of redeemed
     coupons and the specified grading method.
     Grade is capped at 10, and rounded to an integer.
+    Assume sufficiently large class size and number of participations.
+    Zero redemption students are unknown and therefore not taken into
+    considaration.
+    Ties receive the same grade.
   - Calculated rank based on the number of redeemed coupons.
   - Output contains ordered by student id:
     - Student id
@@ -169,7 +180,6 @@ Responses can be:
   generation)
 - SQLite database
 - No ORM
-- No error correction in the QRs
 - No external JS frameworks
 - Designed for Debian stable
 - systemd-friendly
@@ -186,7 +196,8 @@ Responses can be:
 
 Security:
 - TLS using letsencrypt certificate installed separately from the application
-  in the locations commonly used in Debian systems.
+  using the files
+  `/etc/letsencrypt/live/pixelbonus.com/{fullchain.pem,privkey.pem}`
 - CSRF protection
 - Password hashing (bcrypt or argon2)
 - Secure session handling
