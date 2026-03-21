@@ -34,7 +34,7 @@ A specification is valid iff:
 - `specs.md` or `specs/` exists
 - All referenced files exist
 - No placeholders (e.g., “TBD”, “etc.”)
-- No undefined types or functions
+- No undefined behavior unless explicitly stated as implementation-defined
 - No conflicting requirements
 
 If any check fails → STOP and report:
