@@ -1,0 +1,9 @@
+{{define "public_redemptions"}}
+<h1>Public Redemptions for {{.Course.Name}}</h1>
+<table>
+  <tr><th>Student id</th><th>Redemptions</th></tr>
+  {{range .Rows}}
+  <tr><td>{{.StudentID}}</td><td>{{.Redemptions}}</td></tr>
+  {{end}}
+</table>
+{{end}}

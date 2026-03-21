@@ -1,0 +1,12 @@
+{{define "login"}}
+<h1>Instructor Login</h1>
+{{if .Error}}<p class="error">{{.Error}}</p>{{end}}
+<form method="post">
+  <input type="hidden" name="csrf_token" value="{{.AnonCSRF}}">
+  <label>Email <input type="email" name="email"></label>
+  <label>Password <input type="password" name="password"></label>
+  <button type="submit">Login</button>
+</form>
+<p><a href="/instructor/password/forgot">I forgot my password</a></p>
+<p><a href="/instructor/register">Register</a></p>
+{{end}}

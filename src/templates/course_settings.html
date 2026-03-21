@@ -1,0 +1,22 @@
+{{define "course_settings"}}
+<h1>Course Settings</h1>
+{{if .Message}}<p class="message">{{.Message}}</p>{{end}}
+{{if .Error}}<p class="error">{{.Error}}</p>{{end}}
+<form method="post">
+  <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+  <label>Course name <input type="text" name="name" value="{{.Course.Name}}"></label>
+  <label>Grading method
+    <select name="grading_method">
+      <option value="zero_to_q2_10" {{if eq .Course.GradingMethod "zero_to_q2_10"}}selected{{end}}>0 = 0, ≥Q2 = 10</option>
+      <option value="zero_to_q3_10" {{if eq .Course.GradingMethod "zero_to_q3_10"}}selected{{end}}>0 = 0, ≥Q3 = 10</option>
+      <option value="zero_to_q4_10" {{if eq .Course.GradingMethod "zero_to_q4_10"}}selected{{end}}>0 = 0, Q4 = 10</option>
+      <option value="q2_5_to_q3_10" {{if eq .Course.GradingMethod "q2_5_to_q3_10"}}selected{{end}}>Q2 = 5, ≥Q3 = 10</option>
+      <option value="q2_5_to_q4_10" {{if eq .Course.GradingMethod "q2_5_to_q4_10"}}selected{{end}}>Q2 = 5, Q4 = 10</option>
+      <option value="q1_5_to_q2_10" {{if eq .Course.GradingMethod "q1_5_to_q2_10"}}selected{{end}}>Q1 = 5, ≥Q2 = 10</option>
+      <option value="q1_5_to_q3_10" {{if eq .Course.GradingMethod "q1_5_to_q3_10"}}selected{{end}}>Q1 = 5, ≥Q3 = 10</option>
+      <option value="q1_5_to_q4_10" {{if eq .Course.GradingMethod "q1_5_to_q4_10"}}selected{{end}}>Q1 = 5, Q4 = 10</option>
+    </select>
+  </label>
+  <button type="submit">Save</button>
+</form>
+{{end}}

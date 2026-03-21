@@ -1,0 +1,11 @@
+{{define "redeem"}}
+<h1>Redeem Coupon</h1>
+{{if .Error}}<p class="error">{{.Error}}</p>{{end}}
+<form method="post" action="/redeem">
+  <input type="hidden" name="csrf_token" value="{{.AnonCSRF}}">
+  <label>Course name <input type="text" value="{{.Lookup.CourseName}}" readonly></label>
+  <label>Coupon code <input type="text" name="code" value="{{.Lookup.CouponCode}}"></label>
+  <label>Student id <input type="text" name="student_id" maxlength="20"></label>
+  <button type="submit">Redeem</button>
+</form>
+{{end}}

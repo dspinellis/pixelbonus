@@ -1,0 +1,42 @@
+# Module Specification: web
+
+- Target source file path: `src/pixelbonus/web/handlers.go`
+- Owned APIs:
+  - `NewServer`
+- Internal logic:
+  - Parse templates on startup from `src/templates`.
+  - Serve static assets from `src/assets`.
+  - Render one layout that satisfies the shared page chrome:
+    - title `PixelBonus`
+    - left brand link
+    - right language selector and logged-in user menu when present
+    - footer GitHub link and privacy policy link
+  - Implement middleware for:
+    - language resolution and cookie update
+    - session lookup
+    - CSRF verification on all POST routes except password reset submission without session and instructor registration/password-forgot forms; those forms use one-time hidden tokens embedded from dedicated GET handlers
+  - Render the exact redemption response messages required by the specification.
+  - Return CSV for the grades export route.
+- Dependencies ONLY via `design/api.md`:
+  - `config.Load`
+  - `i18n.NewCatalog`
+  - `i18n.ResolveLanguage`
+  - `i18n.Catalog.T`
+  - `auth.Login`
+  - `auth.Logout`
+  - `auth.RegisterInstructor`
+  - `auth.VerifyInstructor`
+  - `auth.RequestPasswordReset`
+  - `auth.ResetPassword`
+  - `auth.ChangePassword`
+  - `auth.InstructorBySession`
+  - `course.ListCourses`
+  - `course.CreateCourse`
+  - `course.GetCourse`
+  - `course.UpdateCourse`
+  - `course.PublicRedemptions`
+  - `coupon.QueueGeneration`
+  - `coupon.LookupCoupon`
+  - `coupon.RedeemByCode`
+  - `coupon.FileByNonce`
+  - `grade.CourseGrades`

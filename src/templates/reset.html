@@ -1,0 +1,10 @@
+{{define "reset"}}
+<h1>Reset Password</h1>
+{{if .Error}}<p class="error">{{.Error}}</p>{{end}}
+<form method="post">
+  <input type="hidden" name="csrf_token" value="{{.AnonCSRF}}">
+  <input type="hidden" name="token" value="{{.QueryToken}}">
+  <label>New password <input type="password" name="password"></label>
+  <button type="submit">Set password</button>
+</form>
+{{end}}

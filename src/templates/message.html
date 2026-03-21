@@ -1,0 +1,5 @@
+{{define "message"}}
+<h1>{{.Title}}</h1>
+{{if .Message}}<p class="message">{{.Message}}</p>{{end}}
+{{if .Error}}<p class="error">{{.Error}}</p>{{end}}
+{{end}}

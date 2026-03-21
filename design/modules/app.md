@@ -1,0 +1,22 @@
+# Module Specification: app
+
+- Target source file path: `src/main.go`
+- Owned APIs:
+  - none; executable entry point only
+- Internal logic:
+  - Load configuration.
+  - Initialize translation catalog, database, services, and background worker.
+  - Build HTTP handler tree through `web.NewServer`.
+  - Start HTTPS server using configured certificate files.
+  - Shut down cleanly on process signal.
+- Dependencies ONLY via `design/api.md`:
+  - `config.Load`
+  - `database.Open`
+  - `i18n.NewCatalog`
+  - `auth.NewService`
+  - `course.NewService`
+  - `coupon.NewService`
+  - `grade.NewService`
+  - `email.NewSender`
+  - `job.NewWorker`
+  - `web.NewServer`

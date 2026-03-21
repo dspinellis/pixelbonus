@@ -1,0 +1,8 @@
+{{define "forgot"}}
+<h1>Password Recovery</h1>
+<form method="post">
+  <input type="hidden" name="csrf_token" value="{{.AnonCSRF}}">
+  <label>Email <input type="email" name="email"></label>
+  <button type="submit">Email me a link to set up a new password.</button>
+</form>
+{{end}}

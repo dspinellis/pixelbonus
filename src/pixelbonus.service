@@ -1,0 +1,13 @@
+[Unit]
+Description=PixelBonus participation server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/pixelbonus
+ExecStart=/opt/pixelbonus/pixelbonus
+Restart=on-failure
+Environment=PIXELBONUS_ADDR=:443
+
+[Install]
+WantedBy=multi-user.target

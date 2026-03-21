@@ -1,0 +1,27 @@
+# Module Specification: auth
+
+- Target source file path: `src/pixelbonus/auth/service.go`
+- Owned APIs:
+  - `NewService`
+  - `RegisterInstructor`
+  - `VerifyInstructor`
+  - `Login`
+  - `Logout`
+  - `RequestPasswordReset`
+  - `ResetPassword`
+  - `ChangePassword`
+  - `InstructorBySession`
+- Internal logic:
+  - Define models `Instructor`, `Session`, and input structs.
+  - Keep the application base URL for absolute email links.
+  - Validate:
+    - full name non-empty
+    - email contains one `@` and non-empty local/domain parts
+    - password length at least 8 bytes
+  - Hash passwords with bcrypt.
+  - Generate verification, reset, session, and CSRF tokens from the injected random reader.
+  - Store token expiry timestamps in UTC.
+  - Enforce verified-only login.
+  - Email contents include absolute URLs derived from fixed route patterns.
+- Dependencies ONLY via `design/api.md`:
+  - `email.Send`
