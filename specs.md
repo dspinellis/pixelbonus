@@ -110,6 +110,7 @@ List of existing courses starting with option to add a new course
     - Below the printed code the string pixelbonus.com in a larger font.
   - The PDF is created in `/var/tmp/pixelbonus/BASENAME.pdf`, where
     BASENAME is derived by hex-encoding a 128-bit random nonce.
+    The directory shall be created if missing.
   - When the PDF is created, it emails to the instructor a message to
     download the generated file through a secure link URL based on the
     file name. This can be used by anybody who has it, multiple times,
@@ -198,6 +199,7 @@ Security:
 - TLS using letsencrypt certificate installed separately from the application
   using the files
   `/etc/letsencrypt/live/pixelbonus.com/{fullchain.pem,privkey.pem}`
+  (These are external deployment prerequisites.)
 - CSRF protection
 - Password hashing (bcrypt or argon2)
 - Secure session handling
