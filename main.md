@@ -115,6 +115,29 @@ If incomplete → FIX design before proceeding.
   - `design/schema.sql`
 
 - Ignore all other files
+- Follow domain-specific rules. If the specified conditions are not met,
+  the solution is invalid.
+- Do not simplify-away any requirements, no matter how trivial.  If all
+  requirements are not met, the solution is invalid.
+- If it's impossible to satisfy a requirement, STOP, and explain the reason.
+
+
+### Specific rules for Go projects
+Generate a Go project with STRICT module requirements:
+
+- Use proper Go modules (no replace directives)
+- No local vendoring or third_party directories
+- No fake versions (v0.0.0 is forbidden)
+- Dependencies must resolve via `go mod tidy`
+- The project must build with `go build` immediately
+
+### Specific rules for web projects
+
+- All navigation items must include graphical icons as specified
+- Icons must be implemented using SVG (inline or static files)
+- Text-only substitutes are forbidden
+- Each icon must be visible in rendered HTML (<svg> or <img>)
+- Provide at least 3 distinct icons (home, user, settings)
 
 ## Determinism
 
