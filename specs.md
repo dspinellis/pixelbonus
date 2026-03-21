@@ -11,7 +11,8 @@ The specifications are described below.
 - On the left display the word PixelBonus, linking to the home page.
 - On the right display 
   - the currently selected interface language and a menu to change it
-    (English or Greek)
+    (English or Greek).  Language is persisted using an implementadion-defined
+    cookie.
   - The currently logged in user (if logged in) with menu options to log out
     and visit the user's profile page.
   - At the page bottom links to
@@ -93,8 +94,11 @@ List of existing courses starting with option to add a new course
 
 ### Produce QR code tokens with the following flow:
   - Click on the corresponding course's icon.
-  - User Provides number of required QR code tokens in multiples of 20.
-  - Program creates a set of 160 bit token identifiers
+  - User provides number of required QR code tokens in multiples of 20.
+  - Program acknowledges action with a message indicating that the
+    user will be notified when coupons are ready.
+  - Program initiates asynchronous generation of coupons.
+  - Program creates a set of 160 bit token identifiers.
   - Adds generated token identifiers in the database, associated with the
     selected course, a timestamp of the token set creation time,
     and marked as unused.
@@ -125,11 +129,14 @@ List of existing courses starting with option to add a new course
   - Click on the corresponding course's icon.
   - Calculated grades on a 0-10 scale based on the number of redeemed
     coupons and the specified grading method.
+    Quartiles are determined based on the distribution of coupon
+    redemptions, e.g. Q2 is the median coupong redemption value.
     Grade is capped at 10, and rounded to an integer.
     Assume sufficiently large class size and number of participations.
     Zero redemption students are unknown and therefore not taken into
     considaration.
-    Ties receive the same grade.
+    All other grading choices (e.g. ties, ranking type) are implementation
+    defined.
   - Calculated rank based on the number of redeemed coupons.
   - Output contains ordered by student id:
     - Student id
