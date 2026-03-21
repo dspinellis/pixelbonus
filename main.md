@@ -155,8 +155,9 @@ Tests must:
 
 Produce:
 
-- `implementation-notes.md`
-- `README.md`
+- `implementation-notes.md` documenting all implementation-defined choices.
+- `README.md` with instructions on compiling, testing, deploying, running,
+    using, and monitoring (if needed) the created  software.
 
 ---
 
