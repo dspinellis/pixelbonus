@@ -1,5 +1,6 @@
 # Goal
-Implement a complete, testable software system from specifications in `specs.md` or the `specs/` directory.
+Implement a complete, testable software system from specifications in
+`specs.md` or the `specs/` directory.
 Output code in `/src`, tests in `/tests`.
 
 ---
@@ -14,7 +15,15 @@ Operate in strict phases:
 5. FINALIZATION
 
 Do not proceed unless the current phase passes all checks.
-Process is self-healing: issues discovered later must trigger controlled return to DESIGN.
+Process is self-healing: issues discovered later must trigger controlled
+return to SPEC VALIDATION.
+
+To keep track of progress maintain the file `progress.md`.
+format:
+  <module> | <status> | <src> | <tests>
+  statuses: pending | implemented | tested | integrated
+
+
 
 ---
 
@@ -49,6 +58,7 @@ Always produce a full design in `/design`.
 - `design/global.md`
 - `design/use-cases.md`
 - `design/modules/*.md` (one per module)
+- `design/schema.sql` commented DDL if persistence is required
 
 ## Architecture selection (deterministic)
 
@@ -59,7 +69,7 @@ Always produce a full design in `/design`.
 
 ## API requirements
 
-Each API entry MUST include:
+Each API entry in `design/api.md` MUST include:
 - name
 - module path
 - full typed signature
@@ -78,10 +88,11 @@ Each file in `design/modules/*.md` must include:
 
 ## Global spec
 
-Must include:
+The file `design/global.md` must include:
 - language + version
 - dependency policy
 - error handling strategy
+- any other specified global or non-functional requirements
 
 ## Validation
 
@@ -101,6 +112,7 @@ If incomplete → FIX design before proceeding.
   - `design/api.md`
   - `design/global.md`
   - `design/architecture.md`
+  - `design/schema.sql`
 
 - Ignore all other files
 
@@ -109,6 +121,7 @@ If incomplete → FIX design before proceeding.
 - Do not infer beyond design
 - Do not add features
 - Minimal dependencies only if specified
+- Initialize database using `schema.sql`.
 
 ## Self-healing
 
@@ -120,7 +133,7 @@ If during implementation:
 Then:
 1. STOP implementation
 2. Update affected design files
-3. Resume implementation
+3. Resume implementation for all changed files under `design/`
 
 ---
 
@@ -142,15 +155,8 @@ Tests must:
 
 Produce:
 
-- `progress.md`
-  format:
-  <module> | <status> | <src> | <tests>
-  statuses: pending | implemented | tested | integrated
-
 - `implementation-notes.md`
 - `README.md`
-
-- `schema.sql` if persistence is required
 
 ---
 
@@ -165,6 +171,9 @@ Produce:
 
 # Failure Conditions (STOP)
 
+Any of the following that cannot be fixed by going to the DESIGN
+phase over three iterations.
+
 - missing file
 - incomplete API
 - ambiguous behavior
@@ -176,4 +185,4 @@ Report minimally and exit.
 ---
 
 # Ignore
-Editor swap files (e.g. .*.swp)
+Editor files (e.g. `.*.swp`, `Session.vim`, files in `.gitignore`)
