@@ -17,8 +17,7 @@ The specifications are described below.
     and visit the user's profile page.
   - At the page bottom links to
     - the project on GitHub https://github.com/dspinellis/pixelbonus with GitHub's icon
-    - Link to a GDPR-compliant privacy statement (generate a non-final draft
-      placeholder one for EU (Greece) jurisdiction).
+    - Link to the privacy policy provided here as `privacy_policy.md`.
 
 ## Home page under pixelbonus.com
 - Appears in the browser's preferred language; English by default.
@@ -208,9 +207,10 @@ Responses can be:
 
 Security:
 - TLS using letsencrypt certificate installed separately from the application
-  using the files
+  using the files located in
   `/etc/letsencrypt/live/pixelbonus.com/{fullchain.pem,privkey.pem}`
-  (These are external deployment prerequisites.)
+  (These are external deployment prerequisites to be used from the specified
+  locations. They are not subject to repo file-existence validation.)
 - CSRF protection
 - Password hashing (bcrypt or argon2)
 - Secure session handling
