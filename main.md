@@ -43,11 +43,17 @@ modular implementation as specified in the corresponding section.
   self-contained specification files for separate implementation
   module (e.g., `specs/input.md`, `specs/processing.md`,
   `specs/output.md`) with clearly-defined interfaces.
+- The files under `specs/` should be self-contained, specifying all
+  details needed to implement each specific module in isolation.
+  No reference shall be made anywhere to the original specification
+  file, because this is replaced by the split files.
 - Add a file `specs/api.md` that specifies the API provided by each
   file implementing a specific part of the specifications.  This must
   provide the complete information needed to utilize that part of the
   specifications, namely what to import/link/include, each provided
   function/method/class/endpoint, its arguments, and return value.
+  This is the only file that each module will consult to call other
+  modules, so ensure that nothing is missing.
 - Start each specification file with the path of the corresponding
   source code file and a list of the names of the implemented
   APIs.
