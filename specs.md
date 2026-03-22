@@ -7,7 +7,7 @@ The specifications are described below.
 # Functional specifications
 
 ## All pages
-- HTML title PixelBonus
+- HTML header `<title>` PixelBonus
 - Sans Serif font
 - On the left display the word PixelBonus, linking to the home page.
 - On the right display 
@@ -24,10 +24,10 @@ The specifications are described below.
 
 ## Home page under pixelbonus.com
 - Appears in the browser's preferred language; English by default.
-Title: Your participation counts!
+Heading: Your participation counts!
 
 Page split in half:
-- Large student icon, "I'm a participant"
+- Large (about 25% of screen size) student icon, "I'm a participant"
 "Here you can redeem your personal QR code with only 2 clicks. Enter the code and your personal identifier and your participation will be instantly counted."
 - Large icon of a professor, "I'm an instructor"
 "With PixelBonus, you can reward active participation of the students by providing personal QR codes that they can redeem quickly and easily. Create an activity/course, print the codes and form rankings using several grading models."
@@ -152,6 +152,7 @@ List of existing courses starting with option to add a new course
 ### View public redemption page
   - This page is publicly accessible for each course
     without registration or login.
+  - Use a URL-encoded nonce under /public as the URL
   - This page contains ordered by student id:
     - Student id
     - Number of redemptions
@@ -222,7 +223,7 @@ Internationalization is REQUIRED.
 - All UI text must be loaded via a translation system.
 - If any string appears only in English, the solution is invalid.
 
-Use a translation system with:
+When no localized templates are used, employ a translation system with:
 - translation files (e.g. en.json, el.json)
 - key-based lookup (no inline strings)
 - runtime language selection
