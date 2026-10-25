@@ -1,12 +1,14 @@
 # PixelBonus
 
 PixelBonus is a Go 1.15 web application for instructor-managed classroom participation using redeemable QR coupons.
-It was developed using OpenAI's Codex to replace a
+See it in action and use it in your class through [pixelbonus.com](https://www.pixelbonus.com/).
+
+The source code in this repository was developed using OpenAI's Codex to replace a
 [legacy PHP/Symfony implementation](https://github.com/dspinellis/pixelbonus-php)
 following the publication of two critical PHP vulnerabilities
 ([CVE-2026-109618](https://www.cve.org/CVERecord?id=CVE-2026-109618) and
 [CVE-2026-109619](https://www.cve.org/CVERecord?id=CVE-2026-109619))
-and the lack of packaged updates for the PHP version it was implemented in.
+and the lack of packaged updates for the PHP version the legacy code was implemented in.
 
 ## Build
 
