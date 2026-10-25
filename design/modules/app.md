@@ -1,0 +1,22 @@
+# Module: app
+
+- Target source file path: `src/main.go`
+- Owned APIs:
+  - none; binary entrypoint only
+- Internal logic:
+  - load configuration
+  - initialize logger, catalogs, schema, services, and HTTP server
+  - resume pending token-generation jobs
+  - start TLS server with configured port and fixed certificate paths
+  - support graceful shutdown on SIGINT and SIGTERM
+- Dependencies:
+  - `config.Load`
+  - `logging.New`
+  - `i18n.LoadCatalogs`
+  - `database.OpenMySQL`
+  - `auth.RegisterInstructor`
+  - `session.Create`
+  - `csrf.Issue`
+  - `courses.CreateCourse`
+  - `tokens.ResumePendingJobs`
+  - `web.NewServer`

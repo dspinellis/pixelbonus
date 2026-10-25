@@ -1,0 +1,21 @@
+# Module: tokens
+
+- Target source file path: `src/tokens/service.go`
+- Owned APIs:
+  - `CreateTokenSet`
+  - `ResumePendingJobs`
+  - `GetTokenByCode`
+  - `GetDownloadPath`
+- Internal logic:
+  - generate 160-bit token codes
+  - persist token sets and coupon tokens
+  - create secure file nonce
+  - schedule and de-duplicate async jobs
+  - update job status after PDF and email completion
+- Dependencies:
+  - `courses.GetCourse`
+  - `database.OpenMySQL`
+  - `database.WithTx`
+  - `logging.Log`
+  - `mail.Send`
+  - `pdf.GenerateCoupons`

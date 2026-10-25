@@ -1,0 +1,21 @@
+# Module: auth
+
+- Target source file path: `src/auth/service.go`
+- Owned APIs:
+  - `RegisterInstructor`
+  - `ConfirmInstructorEmail`
+  - `Login`
+  - `CreatePasswordReset`
+  - `ResetPassword`
+  - `ChangePassword`
+- Internal logic:
+  - input validation
+  - email normalization
+  - bcrypt hashing and comparison
+  - verification and reset token lifecycle
+  - instructor ownership lookups
+- Dependencies:
+  - `database.OpenMySQL`
+  - `database.WithTx`
+  - `logging.Log`
+  - `mail.Send`

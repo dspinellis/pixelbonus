@@ -1,0 +1,39 @@
+# Module: web
+
+- Target source file path: `src/web/server.go`
+- Owned APIs:
+  - `NewServer`
+  - `Routes`
+- Internal logic:
+  - parse English and Greek templates from configured template directory
+  - inject translated strings into layouts and pages
+  - render inline SVG icons for navigation and action items
+  - wire middleware for logging, sessions, language, and CSRF
+  - map routes to application services
+  - serve generated PDFs through secure nonce URLs
+- Dependencies:
+  - `auth.RegisterInstructor`
+  - `auth.ConfirmInstructorEmail`
+  - `auth.Login`
+  - `auth.CreatePasswordReset`
+  - `auth.ResetPassword`
+  - `auth.ChangePassword`
+  - `session.Create`
+  - `session.Validate`
+  - `session.Destroy`
+  - `csrf.Issue`
+  - `csrf.Verify`
+  - `courses.CreateCourse`
+  - `courses.ListCourses`
+  - `courses.GetCourse`
+  - `courses.UpdateCourse`
+  - `tokens.CreateTokenSet`
+  - `tokens.GetDownloadPath`
+  - `redemption.Redeem`
+  - `redemption.LookupRedeemPage`
+  - `grades.ComputeCourseGrades`
+  - `grades.RenderCSV`
+  - `public.ListPublicRedemptions`
+  - `i18n.ResolveLanguage`
+  - `i18n.T`
+  - `logging.Log`

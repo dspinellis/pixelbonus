@@ -1,0 +1,17 @@
+config | tested | src/config/config.go | tests/config_test.go
+logging | implemented | src/logging/logger.go | tests/logging_test.go
+i18n | tested | src/i18n/catalog.go | tests/i18n_test.go
+schema | integrated | design/schema.sql | tests/schema_test.go
+database | implemented | src/database/sqlite.go | tests/database_test.go
+auth | tested | src/auth/service.go | tests/auth_test.go
+session | tested | src/session/store.go | tests/session_test.go
+csrf | integrated | src/csrf/service.go | tests/csrf_test.go
+mail | integrated | src/mail/service.go | tests/mail_test.go
+courses | tested | src/courses/service.go | tests/courses_test.go
+tokens | integrated | src/tokens/service.go | tests/tokens_test.go
+grades | tested | src/grades/service.go | tests/grades_test.go
+redemption | tested | src/redemption/service.go | tests/redemption_test.go
+public | integrated | src/public/service.go | tests/public_test.go
+pdf | integrated | src/pdf/service.go | tests/pdf_test.go
+web | integrated | src/web/server.go | tests/web_test.go
+app | tested | src/main.go | tests/integration_test.go
