@@ -38,7 +38,7 @@ MySQL-specific tests require `PIXELBONUS_TEST_MYSQL_DSN`; see below for server s
 
 ## MySQL setup
 
-The application uses MySQL 5.7+ (also tested with MariaDB 10.5) and the domain tables from `old-schema.sql`. SQLite is used only for fast unit tests.
+The application uses MySQL 5.7+ (also tested with MariaDB 10.5) and the domain tables from [legacy schema](design/legacy-schema.md). SQLite is used only for fast unit tests.
 
 Set the connection using `db_dsn` in the config file, or the overriding `PIXELBONUS_DB_DSN` environment variable:
 
@@ -48,7 +48,7 @@ db_dsn=pixelbonus:password@tcp(127.0.0.1:3306)/pixelbonus
 
 Unix sockets also work: `pixelbonus:password@unix(/run/mysqld/mysqld.sock)/pixelbonus`. For remote servers configure the driver's `tls` DSN option as appropriate. DSN parameters follow [go-sql-driver/mysql](https://github.com/go-sql-driver/mysql/tree/v1.7.1#dsn-data-source-name). The application always reads DATETIME values as strings and disables multi-statement execution.
 
-For an **existing legacy database**, select it in the DSN and start normally. Startup applies the additive [application schema](design/schema.sql): `CREATE TABLE IF NOT EXISTS` statements only, with no copying, dropping, renaming, or altering of existing tables. Do not import `old-schema.sql` over an existing database: that dump includes destructive DROP statements. The application account needs SELECT, INSERT, UPDATE, DELETE, CREATE, and REFERENCES privileges on the selected database.
+For an **existing legacy database**, select it in the DSN and start normally. Startup applies the additive [application schema](design/schema.sql): `CREATE TABLE IF NOT EXISTS` statements only, with no copying, dropping, renaming, or altering of existing tables. Do not import [legacy schema](design/legacy-schema.md) over an existing database: that dump includes destructive DROP statements. The application account needs SELECT, INSERT, UPDATE, DELETE, CREATE, and REFERENCES privileges on the selected database.
 
 For a **fresh database**, build the executable and initialize it:
 
@@ -75,6 +75,13 @@ PIXELBONUS_TEST_MYSQL_DSN='tester:password@tcp(127.0.0.1:3306)/' go test ./...
 ```
 
 Tests create uniquely named temporary databases and drop only those databases afterward. They cover fresh initialization, repeated initialization over the actual legacy table definitions, existing records, concurrent redemption, account flows, grading, and PDF job persistence. Without this variable, MySQL-specific tests skip and the remaining tests use the SQLite fixture.
+
+## Continuous Integration
+
+[GitHub Actions](.github/workflows/ci.yml) builds, vets, and tests the project on
+pushes and pull requests, using Go 1.15 and the current stable Go release. Each
+version runs the suite with SQLite and a disposable MySQL 8.0 service. No repository
+secrets or production database are required. The workflow can also be run manually.
 
 ## Run
 

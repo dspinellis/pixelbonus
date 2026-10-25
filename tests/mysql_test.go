@@ -43,7 +43,7 @@ func mysqlTestDB(t *testing.T, schema string) (*sql.DB, string) {
 }
 
 func TestMySQLLegacyCompatibility(t *testing.T) {
-	dump, err := ioutil.ReadFile("../old-schema.sql")
+	dump, err := ioutil.ReadFile("../design/legacy-schema.md")
 	if err != nil {
 		t.Fatal(err)
 	}

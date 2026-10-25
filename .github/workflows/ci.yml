@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Go ${{ matrix.go }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        go: ['1.15.x', 'stable']
+    env:
+      CGO_ENABLED: '1'
+      GO111MODULE: 'on'
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ci-password
+          MYSQL_ROOT_HOST: '%'
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -pci-password"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v7
+        with:
+          go-version: ${{ matrix.go }}
+          cache-dependency-path: go.sum
+      - name: Download dependencies
+        run: go mod download
+      - name: Verify dependencies
+        run: go mod verify
+      - name: Build
+        run: go build -o /tmp/pixelbonus ./src
+      - name: Vet
+        run: go vet ./...
+      - name: Test with SQLite
+        run: go test -count=1 -timeout=5m ./...
+      - name: Test with MySQL
+        env:
+          PIXELBONUS_TEST_MYSQL_DSN: 'root:ci-password@tcp(127.0.0.1:3306)/'
+        run: go test -count=1 -timeout=5m ./...
