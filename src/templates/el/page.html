@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="{{.Lang}}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PixelBonus</title>
+  <style>
+    body{font-family:sans-serif;margin:0;background:#f5fbf9;color:#2c3e50}header,footer{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;background:#fff}main{padding:1.5rem}a{color:#2c3e50;text-decoration:none}a.button,button{background:#18bc9c;color:#fff;border:0;padding:.7rem 1rem;border-radius:.4rem}form{display:grid;gap:.8rem;max-width:36rem}label{display:grid;gap:.3rem}section.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}.panel{background:#fff;padding:1.2rem;border-radius:1rem}table{border-collapse:collapse;width:100%;background:#fff}td,th{border:1px solid #d7e5e1;padding:.5rem;text-align:left}ul.courses{display:grid;gap:.6rem;list-style:none;padding:0}
+    svg{vertical-align:middle}.panel>svg{width:64px;height:64px}.courses a{display:inline-flex;align-items:center}.courses svg{width:16px;height:16px}
+    .courses li{display:grid;grid-template-columns:70% 30%;align-items:center}.courses li>strong{min-width:0;padding-right:1rem;overflow-wrap:anywhere}.course-actions{display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:center;gap:.65rem;min-width:0}
+    .courses li{padding:.6rem 0}.courses li:nth-child(odd){background:#fff}.courses li:nth-child(even){background:#e5f1ed}.courses li>strong{padding-left:.6rem}.grading-method{display:flex;align-items:center;gap:.5rem;margin:.5rem 0}.grading-method input{margin:0;flex-shrink:0}
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">{{index .Icons "home"}} PixelBonus</a>
+    <nav>
+      <form action="/lang" method="post" style="display:inline-flex;gap:.5rem;align-items:center">
+        <input type="hidden" name="return_to" value="{{.ReturnTo}}">
+        <select name="lang" aria-label="{{call .T "language"}}" onchange="this.form.requestSubmit()">
+          <option value="en" {{if eq .Lang "en"}}selected{{end}}>{{call .T "language_en"}}</option>
+          <option value="el" {{if eq .Lang "el"}}selected{{end}}>{{call .T "language_el"}}</option>
+        </select>
+        <noscript><button type="submit">{{call .T "submit"}}</button></noscript>
+      </form>
+      {{if .CurrentUser}} <a href="/instructor/profile">{{index .Icons "user"}} {{.CurrentUser}}</a> <a href="/instructor/logout">{{call .T "logout"}}</a>{{end}}
+    </nav>
+  </header>
+  <main>{{.Content}}</main>
+  <footer>
+    <a href="https://github.com/dspinellis/pixelbonus">{{index .Icons "github"}} GitHub</a>
+    <a href="{{.PrivacyPolicyURL}}">{{call .T "privacy_policy"}}</a>
+  </footer>
+</body>
+</html>

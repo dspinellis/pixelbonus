@@ -1,0 +1,26 @@
+[Unit]
+Description=PixelBonus participation service
+Wants=network-online.target
+After=network-online.target mysql.service mariadb.service
+
+[Service]
+Type=simple
+User=pixelbonus
+Group=pixelbonus
+WorkingDirectory=/opt/pixelbonus
+Environment=PIXELBONUS_CONFIG=/etc/pixelbonus.conf
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=/opt/pixelbonus/pixelbonus
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+LogsDirectory=pixelbonus
+LogsDirectoryMode=0750
+UMask=0027
+Restart=on-failure
+RestartSec=5s
+TimeoutStopSec=15s
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=pixelbonus
+
+[Install]
+WantedBy=multi-user.target

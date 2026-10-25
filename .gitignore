@@ -1,0 +1,25 @@
+# Built application and local workspace symlink
+/pixelbonus
+/pixelbonus2
+
+# Local configuration and credentials (deploy/pixelbonus.conf is the template)
+/pixelbonus-try.conf
+/.env
+/.env.*
+!/.env.example
+/.aws/
+
+# Runtime output
+/log/
+*.log
+
+# Go test and coverage output
+*.test
+/coverage.out
+/coverage.html
+
+# Editor state
+/Session.vim
+*.swp
+*.swo
+*~
