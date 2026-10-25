@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        go: ['1.15.x', 'stable']
+        go: ['1.19.x', 'stable']
     env:
       CGO_ENABLED: '1'
       GO111MODULE: 'on'

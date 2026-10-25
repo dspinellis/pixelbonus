@@ -3,7 +3,7 @@
 ## Language and Version
 
 - Language: Go
-- Target version: Go 1.15
+- Target version: Go 1.19
 
 ## Dependency Policy
 

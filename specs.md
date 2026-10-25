@@ -1,4 +1,4 @@
-Develop a complete Go 1.15 web application for allowing students
+Develop a complete Go 1.19 web application for allowing students
 to register their in-class participation in a course via instructor-supplied
 printed QR codes handed to them.
 

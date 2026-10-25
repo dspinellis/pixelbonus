@@ -1,6 +1,6 @@
 # PixelBonus
 
-PixelBonus is a Go 1.15 web application for instructor-managed classroom participation using redeemable QR coupons.
+PixelBonus is a Go 1.19 web application for instructor-managed classroom participation using redeemable QR coupons.
 See it in action and use it in your class through [pixelbonus.com](https://www.pixelbonus.com/).
 
 The source code in this repository was developed using OpenAI's Codex to replace a
@@ -79,7 +79,7 @@ Tests create uniquely named temporary databases and drop only those databases af
 ## Continuous Integration
 
 [GitHub Actions](.github/workflows/ci.yml) builds, vets, and tests the project on
-pushes and pull requests, using Go 1.15 and the current stable Go release. Each
+pushes and pull requests, using Go 1.19 and the current stable Go release. Each
 version runs the suite with SQLite and a disposable MySQL 8.0 service. No repository
 secrets or production database are required. The workflow can also be run manually.
 
